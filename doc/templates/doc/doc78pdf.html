@@ -1,0 +1,103 @@
+{% extends './layout.html' %}
+{% load custom_filters %}
+{% load static %}
+{% block head %}
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{%endblock%}
+{% block title %} DOC_6:PDF {% endblock %}
+{% block body %}
+<header>
+    <div class="header-content">
+        <div class="right-text" style="text-align: right; border: 1px solid black; display: inline;">DOC-5</div>
+        <div class="right-text" style="text-align: right; border: 1px solid black; display: inline;">For Tenders Only(Cost > Rs. 1 Lakh)</div>
+        <div class="left-text" style="text-align: center;  border: 1px solid black;"><strong>MEETING NOTICE <br>(Technical Bid Opening)</strong></div>
+    </div>
+</header>
+<div class="header2">
+    <div><strong>Department of </strong> {{dept}}</div>
+    <br>
+    <div><strong>Notice for Meeting of Purchase Committee for Opening of Technical Bids</strong></div><br>
+    <div><strong>Administrative Approval Ref. No. is </strong>{{refno}} ,<strong> and Date : </strong>{{date}}</div>
+    <div><strong>Tender Notification No. and Date:</strong></div>
+</div>
+<hr>
+<div class="header">
+    <div class="ref_no" style="text-align: left;">
+      <strong>Ref. No:</strong> {{refno6}}
+    </div>
+    <div class="date" style="text-align: right;">
+      <strong>Date:</strong> {{date6}}
+    </div>
+    A Meeting is convened for Opening of. Technical Bids.
+</div><br>
+<div><strong> Debit Head: </strong> {{debit_head}} Fund..</div><br>
+<table style="font-size: 12px;">
+    <tr>
+        <td>Item Name:</td>
+        <td>{{item_name}}</td>
+    </tr>
+    <tr>
+        <td>Type: EQP/Software/Fur/Others</td>
+        <td>{{type}}</td>
+    </tr>
+    <tr>
+        <td>Quantity</td>
+        <td>{{quantity}}</td>
+    </tr>
+    <tr>
+        <td>Total Estimated Cost:</td>
+        <td>{{estcost}}</td>
+    </tr>
+    <tr>
+        <td>For Cost > 1 Lakh   |	EMD</td>
+        <td>2 % of Estimated Cost  :  Rs. {{estcost|percentage}}</td>
+    </tr>
+    <tr>
+        <td>Date and Time</td>
+        <td>{{date2}}</td>
+    </tr>
+    <tr>
+        <td>Venue</td>
+        <td>{{venue}}</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div>You are requested to make it convenient to attend the meeting<br><br><div style="text-align: right;">Name & Signature of Faculty i/c of purchase (buyer)</div>
+            </div>
+        </td>
+    </tr>
+</table>
+<br>
+<div>
+    <strong>To<br>(Purchase Committee Members)
+    </strong>
+    <div>1. {{expert1Name}}</div>
+    <div>2. {{expert2Name}}</div>
+</div>
+<br>
+<div>Encl: Draft Specifications of the item.</div>
+<style>
+    body {
+    font-family: "Times New Roman";
+    font-size: 15px;
+    }
+    .header2{
+        text-align: center;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+      width: 50%;
+    }
+</style>
+{% endblock %}
+

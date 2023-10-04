@@ -1,0 +1,581 @@
+{% extends './layout.html' %}
+{% load static %}    
+{% block body %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<div class="container">
+  <div class="header">
+    <!-- Logout and Next Doc Buttons -->
+    <!-- User Profile Info -->
+    <div class="user-profile">
+      <div>
+        Username: {{ request.user.username }} <br> Email-id: {{ request.user.email }} <br>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="sidebar">
+      <h3 class="logout-button"><a href="{% url 'logout' %}">
+        <button>Logout</button>
+      </a></h3>
+      <h3 class="next-button"><a href="{% url 'doc2' %}">
+        <button>Doc : 2</button>
+      </a></h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc3' %}">
+            <button>Doc : 3</button>
+        </a>
+      </h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc4q' %}">
+            <button>Doc : 4Q</button>
+        </a>
+      </h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc4t1' %}">
+            <button>Doc : 4t1</button>
+        </a>
+      </h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc4t2' %}">
+            <button>Doc : 4t2</button>
+        </a>
+      </h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc5' %}">
+            <button>Doc : 5</button>
+        </a>
+      </h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc6' %}">
+            <button>Doc : 6</button>
+        </a>
+      </h3>
+    </div>
+    <div class="main-form">
+      <div class="right-aligned-box">
+        <h3 class="align-right">DOC-1</h3>
+      </div>      
+      <h2 class="heading"><hr>Administrative Approval for Procurement and Nomination of Experts to Purchase Committee from competent Authority </h2>
+      <form  method="post" action="{% url 'pdfgen' %}" enctype="multipart/form-data" class="mb-3">
+          <hr>
+          {% csrf_token %}
+          {% if user_data %}
+                {% for userdata in user_data %}
+                <div class="container1">
+                  <!-- <label class="form-label" for="refno">Ref No. : </label>
+                  <input class="form-control" type="number" value="{{userdata.refno}}" placeholder="Reference Number" name="refno" required> -->
+                  <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                      <label for="refno" class="col-form-label">Ref No.:</label>
+                    </div>
+                    <div class="col-auto">
+                      <input type="number" id="inputPassword6" class="form-control" value="{{userdata.refno}}" placeholder="Reference Number" name="refno" required>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                      <label for="date" class="col-form-label">Date is : {{ userdata.date}} ,To edit Date:  </label>
+                    </div>
+                    <div class="col-auto">
+                      <input required value="{{ user_data.date }}" class="form-control" type="date" name="date">
+                    </div>
+                    <div class="col-auto">
+                      <span id="passwordHelpInline" class="form-text">
+                        Must be entered everytime
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <!-- <label class="form-label" for="date">Date : {{ userdata.date}} , To edit Date: </label>
+                  <input value="{{ user_data.date }}" class="form-control" type="date" name="date" required>
+                  <div id="emailHelp" class="form-text">Please enter date everytime submitting data</div> -->
+
+                </div>
+                {% endfor %}
+          {% else %}
+          <div class="container1">
+            <!-- <label class="form-label" for="refno">Ref No. : </label>
+            <input class="form-control" type="number" value="{{userdata.refno}}" placeholder="Reference Number" name="refno" required> -->
+            <div class="row g-3 align-items-center">
+              <div class="col-auto">
+                <label for="refno" for="refno" class="col-form-label">Ref No.:</label>
+              </div>
+              <div class="col-auto">
+                <input type="number" id="inputPassword6" class="form-control" placeholder="Reference Number" name="refno" required>
+              </div>
+            </div>
+            <br>
+            <div class="row g-3 align-items-center">
+              <div class="col-auto">
+                <label for="date" for="date" class="col-form-label">Date :</label>
+              </div>
+              <div class="col-auto">
+                <input required class="form-control" type="date" name="date">
+              </div>
+              <div class="col-auto">
+                <span id="passwordHelpInline" class="form-text">
+                  Must be entered everytime
+                </span>
+              </div>
+            </div>
+            <!-- <div class="container1">
+              <label class="left" for="refno">Ref No. : </label>
+              <input class="left" type="number" placeholder="Reference Number" name="refno" required>
+              <input class="right" type="date" name="date" required>
+              <label class="right" for="date">Date : </label>
+            </div> -->
+          {% endif %}
+          <br>
+
+          {% if user_data %}
+                {% for userdata in user_data %}
+                <div class="row g-3 align-items-center">
+                  <div class="col-auto">
+                    <label for="dept_dropdown">Department of:</label>
+                  </div>
+                  <div class="col-auto">
+                  <select class="form-select" name="dept" aria-label="Default select example">
+                    <option {% if "Computer Science and Engineering" in userdata.dept %}selected{% endif %} value="Computer Science and Engineering">Computer Science and Engineering</option>
+                    <option {% if "Electronics and Communication Engineering" in userdata.dept %}selected{% endif %} value="Electronics and Communication Engineering">Electronics and Communication Engineering</option>
+                    <option {% if "Electrical and Electronics Engineering" in userdata.dept %}selected{% endif %} value="Electrical and Electronics Engineering">Electrical and Electronics Engineering</option>
+                    <option {% if "Computational and Data Science" in userdata.dept %}selected{% endif %} value="Computational and Data Science">Computational and Data Science</option>
+                  </select>
+                  </div>
+                </div>
+                  
+
+                  <!-- <div class="deptdiv">
+                    <label for="dept_dropdown">Department of </label>
+                    <select id="dropdown" name="dept">
+                      <option {% if "Computer Science and Engineering" in userdata.dept %}selected{% endif %} value="Computer Science and Engineering">Computer Science and Engineering</option>
+                      <option {% if "Electronics and Communication Engineering" in userdata.dept %}selected{% endif %} value="Electronics and Communication Engineering">Electronics and Communication Engineering</option>
+                      <option {% if "Electrical and Electronics Engineering" in userdata.dept %}selected{% endif %} value="Electrical and Electronics Engineering">Electrical and Electronics Engineering</option>
+                      <option {% if "Computational and Data Science" in userdata.dept %}selected{% endif %} value="Computational and Data Science">Computational and Data Science</option>
+                    </select>
+                  </div> -->
+
+                  <br>    
+                  <!-- <div>
+                      <label for="debit_head" >Debit Head : </label>
+                      <input value="{{ userdata.debit_head}}" type="text" name="debit_head" placeholder="Name of Debit Head" required>
+                  </div> -->
+                  <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                      <label for="debit_head" class="col-form-label">Debit Head :</label>
+                    </div>
+                    <div class="col-auto">
+                      <input value="{{ userdata.debit_head}}" type="text" name="debit_head" placeholder="Name of Debit Head" required class="form-control">
+                    </div>
+                  </div>
+                  <hr>
+          
+                  <div class="entries">
+                      <label for="item_name" >Item Name : </label>
+                      <input value="{{ userdata.item_name}}" type="text" name="item_name" placeholder="Item Name" required>
+                      <br>
+                      <label for="type">Type:  </label>
+                      <select id="dropdown" name="type">
+                        <option {% if "EQUIPMENT" in userdata.type %}selected{% endif %} value="EQUIPMENT">EQUIPMENT</option>
+                        <option {% if "SOFTWARE" in userdata.type %}selected{% endif %} value="SOFTWARE">SOFTWARE</option>
+                        <option {% if "FURNITURE" in userdata.type %}selected{% endif %} value="FURNITURE">FURNITURE</option>
+                        <option {% if "OTHERS" in userdata.type %}selected{% endif %} value="OTHERS">OTHERS</option>
+                      </select>
+                      <br>
+                      <label for="quantity" >Quantity : </label>
+                      <input value="{{ userdata.quantity}}" type="number" name="quantity" min="1" step="1" placeholder="Enter Number">
+                      <br>
+                  </div>
+          
+                  <label for="estcost" >Estimated Cost : </label>
+                  <input value="{{ userdata.estcost}}" type="number" onchange="estcostcheck()" id="estcost" name="estcost" min="1" placeholder="Enter Estimated Cost(In Rs.)">
+                  (if estimated cost is above Rs.5 Lakhs, nominate one expert from the department, the other expert will be nominated by the Director)
+                  <br>
+          
+                    <div id="expert1">
+                      <label for="expert1Name">Expert 1 Name: </label>
+                      <input value="{{ userdata.expert1Name}}" type="text" id="expert1Name" name="expert1Name">
+                    </div>
+                  
+                    <div id="expert2">
+                      <label for="expert2Name">Expert 2 Name: </label>
+                      <input value="{{ userdata.expert2Name}}" type="text" id="expert2Name" name="expert2Name">
+                    </div>
+                {% endfor %}
+          {% else %}
+          <!-- <div class="deptdiv">
+            <label for="dept_dropdown">Department of: </label>
+            <select id="dropdown" name="dept">
+            <option value="Computer Science and Engineering">Computer Science and Engineering</option>
+            <option value="Electronics and Commnication Engineering">Electronics and Commnication Engineering</option>
+            <option value="Electrical and Electronics Engineering">Electrical and Electronics Engineering</option>
+            <option value="Computational and Data Science">Computational and Data Science</option>
+            </select>
+          </div> -->
+
+          <div class="row g-3 align-items-center">
+            <div class="col-auto">
+              <label for="dept_dropdown">Department of:</label>
+            </div>
+            <div class="col-auto">
+            <select class="form-select" name="dept" aria-label="Default select example">
+              <option value="Computer Science and Engineering">Computer Science and Engineering</option>
+              <option value="Electronics and Communication Engineering">Electronics and Communication Engineering</option>
+              <option value="Electrical and Electronics Engineering">Electrical and Electronics Engineering</option>
+              <option value="Computational and Data Science">Computational and Data Science</option>
+            </select>
+            </div>
+            
+          </div>
+          <br>    
+          <div>
+              <label for="debit_head" >Debit Head : </label>
+              <input type="text" name="debit_head" placeholder="Name of Debit Head" required>
+          </div>
+          <hr>
+
+          <div class="entries">
+              <label for="item_name" >Item Name : </label>
+              <input type="text" name="item_name" placeholder="Item Name" required>
+              <br>
+              <label for="type">Type: {{userdata.type}} </label>
+              <select id="dropdown" name="type" value="{{ userdata.type}}">
+                <option value="EQUIPMENT">EQUIPMENT</option>
+                <option value="SOFTWARE">SOFTWARE</option>
+                <option value="FURNITURE">FURNITURE</option>
+                <option value="OTHERS">OTHERS</option>
+              </select>
+              <br>
+              <label for="quantity" >Quantity : </label>
+              <input type="number" name="quantity" min="1" step="1" placeholder="Enter Number">
+              <br>
+          </div>
+
+          <label for="estcost" >Estimated Cost : </label>
+          <input type="number" onchange="estcostcheck()" id="estcost" name="estcost" min="1" placeholder="Enter Estimated Cost">
+          (if estimated cost is above Rs.5 Lakhs, nominate one expert from the department, the other expert will be nominated by the Director)
+          <br>
+
+            <div id="expert1" style="display: block;">
+              <label for="expert1Name">Expert 1 Name: </label>
+              <input type="text" id="expert1Name" name="expert1Name">
+            </div>
+          
+            <div id="expert2" style="display: block;">
+              <label for="expert2Name">Expert 2 Name: </label>
+              <input type="text" id="expert2Name" name="expert2Name">
+            </div>
+          {% endif %}        
+
+          <br>
+          <h3>SUBMITTED FOR APPROVAL</h3>
+          <br>
+          <hr>
+
+          <table>
+              <tr>
+                  <td> Officers  </td>
+                  <td>Signature( Upload Image Copy if available) </td>
+              </tr>
+              <tr>
+                  <td>Faculty in-charge of Purchase (buyer)</td>
+                  <td>
+                    <div class="mb-3">
+                      <input class="form-control" name="facsign" onchange="previewImage(event, 'signature1')" type="file" id="formFile">
+                    </div>
+                    <img id="signature1_preview" alt="Signature 1" style="max-width: 100px; max-height: 100px; display: none;">
+                  </td>
+                </tr>
+                <tr id="taskRow2" style="display: none;">
+                  <td>H.O.D. (for cost &lt; Rs.2 Lakh)</td>
+                  <td>
+                    <!-- <input name="hodsign" type="file" onchange="previewImage(event, 'signature2')">
+                    <img id="signature2_preview" alt="Signature 2" style="max-width: 100px; max-height: 100px; display: none;"> -->
+                    <div class="mb-3">
+                      <input class="form-control" name="hodsign" onchange="previewImage(event, 'signature2')" type="file" id="formFile">
+                    </div>
+                    <img id="signature2_preview" alt="Signature 2" style="max-width: 100px; max-height: 100px; display: none;">
+                  </td>
+                </tr>
+                <tr id="taskRow3" style="display: none;">
+                  <td>Dean (P&amp;D) (for cost &gt; Rs. 2 Lakhs)</td>
+                  <td>
+                    <div class="mb-3">
+                      <input class="form-control" name="deansign" onchange="previewImage(event, 'signature3')" type="file" id="formFile">
+                    </div>
+                    <img id="signature3_preview" alt="Signature 3" style="max-width: 100px; max-height: 100px; display: none;">
+                  </td>
+                </tr>
+            </table>
+          <br>
+          <hr>
+
+          {% if user_data %}
+                {% for userdata in user_data %}
+                  <div>
+                    <label for="approved">Approved by (Note: Choose  the “appropriate competent authority designation”  only) :  </label>
+                    <select id="dropdown" name="approvedby">
+                      <option {% if "Director" in userdata.approvedby %}selected{% endif %} value="Director">Director</option>
+                      <option {% if "H.O.D." in userdata.approvedby %}selected{% endif %} value="H.O.D.">H.O.D.</option>
+                      <option {% if "Dean (P&amp;D)" in userdata.approvedby %}selected{% endif %} value="Dean (P&amp;D)">Dean (P&amp;D)</option>
+                    </select>
+                  </div>
+                {% endfor %}
+          {% else %}
+            <div>
+              <label for="approved">Approved by (Note: Choose  the “appropriate competent authority designation”  only) :  </label>
+              <select id="dropdown" name="approvedby">
+              <option value="Director">Director</option>
+              <option value="H.O.D.">H.O.D.</option>
+              <option value="Dean (P&amp;D)">Dean (P&amp;D)</option>
+              </select>
+            </div>
+          {% endif %}
+
+          <hr>  
+          <div>
+              <input type="radio" id="pdf" name="file_type" value="pdf" checked>
+              <label for="pdf">PDF</label>
+              <input type="radio" id="doc" name="file_type" value="doc">
+              <label for="doc">DOC</label>
+          </div>
+          <div>
+              <button type="submit">Generate Files</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+  
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+<script>
+
+    function previewImage(event, signatureId) {
+      var input = event.target;
+      var imagePreview = document.getElementById(signatureId + '_preview');
+
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+          imagePreview.src = e.target.result;
+          imagePreview.style.display = 'inline-block';
+        };
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function estcostcheck() {
+      const estimatedCostInput = document.getElementById("estcost");
+      const expert1Div = document.getElementById("expert1");
+      const expert2Div = document.getElementById("expert2");
+      const expert1Divname = document.getElementById("expert1Name");
+      const expert2Divname = document.getElementById("expert2Name");
+      var taskRow2 = document.getElementById('taskRow2');
+      var taskRow3 = document.getElementById('taskRow3');
+
+    //   if (estimatedCostInput.value > 500000) {
+    //     expert1Div.style.display = "block";
+    //     expert2Div.style.display = "block";
+    //     expert1Divname.disabled=false;
+    //     expert2Divname.disabled=false;
+    //   } else {
+    //     expert1Div.style.display = "none";
+    //     expert2Div.style.display = "none";      
+    // }
+
+      if (estimatedCostInput.value < 200000) { // Less than 2 Lakhs
+        taskRow2.style.display = 'table-row';
+        taskRow3.style.display = 'none';
+      } else {
+        taskRow2.style.display = 'none';
+        taskRow3.style.display = 'table-row';
+      }
+    }
+  </script>
+
+
+<!--below this is the css/styling for this speicifc home page-->
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container {
+  background-color: #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0; /* Remove margin */
+    margin-right: 0;
+}
+
+/* Header area with buttons and user info */
+.header {
+  display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    display: inline-block;
+}
+.logout-button, .next-button {
+  padding: 12px 20px; /* Adjust padding for larger buttons */
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 18px; /* Adjust font size to make it smaller */
+}
+.content {
+    display: flex;
+    flex-wrap: wrap;
+    /* width: 100%; */
+    width: calc(100% - 10px);
+    max-width: 1500px;
+}
+.user-profile {
+    text-align: right;
+}
+.sidebar {
+    flex: 1;
+    padding: 20px;
+    background-color: #e9e9e9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    max-width:200px;
+}
+.right-aligned-box {
+    text-align: right;
+    border: 1px solid #000;
+    padding: 10px;
+    display: inline-block;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+}
+
+.align-right {
+    text-align: right;
+    margin: 0;
+}
+/* Main Form Area */
+.main-form {
+    flex: 2;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-left: 20px;
+    /* margin-right: 10px; */
+    width: calc(100% - 10px);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+hr {
+  height: 4px; /* Adjust the height to make the hr thicker or thinner */
+  background-color: #333; /* Adjust the color as desired */
+  border: none; /* Remove default hr border */
+  margin: 20px 0; /* Optional: Add some margin around the hr for spacing */
+}
+
+table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+}
+label {
+      font-weight: bold;
+    }
+
+select {
+      padding: 5px;
+}
+
+body {
+      margin: 10px; /* Add margin to the whole page */
+}
+
+  .deptdiv{
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin-right: 10px;
+  }
+.sidebar{
+  min-width: 10rem;
+  width: 15%;
+  height: 100vh;
+  background: white;
+  margin-top: 1rem;
+}
+.sidebar{
+  margin-top: 1rem;
+  display: grid;
+  background: white;
+  height: min-content;
+}
+.sidebar>button{
+  text-decoration: none;
+  padding: 5%;
+  border-width: thin;
+  color: rgb(71, 71, 71);
+  font-weight: 700;
+
+}
+.sidebar>button:hover{
+  background: green;
+}
+
+.table-header{
+  max-width: 1500px;
+  background: white;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+.table-header>h2{
+  padding: 0.5rem;
+  padding-left: 2rem;
+  border-left: solid;
+  border-width: thick;
+  font-size: 1.5rem;
+  font-weight: bolder;
+  color: rgb(142, 86, 156);
+  border-color: rgb(57, 15, 71);
+}
+.table{
+  max-width: 1500px;
+  margin: auto;
+  margin-top: 0.5rem;
+}
+@media (max-width: 1500px) {
+    .main-form {
+        padding: 5px;
+    }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends './layout.html' %}
+<!--{% load static %}-->
+{% block head %}
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!--link rel="stylesheet" type="text/css" href="../../static/index.css" /-->
+{%endblock%}
+{% block title %} PDF {% endblock %}
+{% block body %}
+<div class="header">
+    <h6>DOC - 1</h6>
+</div>
+<div class="header2">
+    <h6>Administrative Approval for Procurement and Nomination of Experts to Purchase Committee from competent Authority</h6>
+</div>
+<hr>
+<div class="header">
+    <div class="ref_no" style="text-align: left;">
+      <strong>Ref. No:</strong> {{refno}}
+    </div>
+    <div class="date" style="text-align: right;">
+      <strong>Date:</strong> {{date}}
+    </div>
+</div>
+<div style="text-align: center; font-size: 20px;"> <strong>Department Of : </strong> {{dept}}</div><br>
+<div style="font-size: 20px;"><strong> Debit Head: </strong> {{debit_head}}</div>
+<div style="font-size: 15px;">Item Name: {{item_name}}</div>
+<div style="font-size: 15px;">Type : {{type}}</div>
+<div style="font-size: 15px;">Quantity: {{quantity}}</div>
+<div style="font-size: 15px;">Estimated Cost: {{estcost}}</div>
+<br>
+<div class="experts" style="display: flex; font-size: 15px;">
+    <p>
+        Nomination of Experts to Purchase Committee
+        (if estimated cost is above Rs.5 Lakhs, nominate one expert from the department, the other expert will be nominated by the Director)
+    </p>
+    <div>1. {{expert1Name}}</div>
+    <div>2. {{expert2Name}}</div>
+</div>
+<br>
+<strong style="font-size: 20px;">Submitted For Approval</strong>
+
+<table style="font-size: 16px;">
+    <tr>
+      <th colspan="2">Signature</th>
+    </tr>
+    <tr id="row1">
+      <td>Faculty in-charge of Purchase (buyer)</td>
+      <td><img src="../media/{{facsign}}" alt="Faculty Signature" width="200" height="150"></td>
+    </tr>
+    <tr id="row2">
+      <td>H.O.D. (for cost &lt; Rs.2 Lakh)</td>
+      <td><img src="../media/{{hodsign}}" alt="HOD Signature" width="200" height="150"></td>
+    </tr>
+    <tr id="row3">
+      <td>Dean (P&amp;D) (for cost &gt; Rs. 2 Lakhs)</td>
+      <td><img src="../media/{{deansign}}" alt="Dean Signature" width="200" height="150"></td>
+    </tr>
+</table>
+<hr>
+<strong style="font-size: 20px;">Approved</strong>
+<strong style="font-size: 20px;">{{approvedby}}</strong>
+
+<script>
+    if (estcost > 500000) {
+      document.querySelector('.experts').style.display = 'block';
+    }
+    var row2 = document.getElementById('row2');
+    var row3 = document.getElementById('row3');
+    if (estcost < 200000) {
+      row2.style.display = 'table-row';
+      row3.style.display = 'none';
+    } else {
+      row2.style.display = 'none';
+      row3.style.display = 'table-row';
+    }
+</script>
+
+<style>
+
+    .header {
+      text-align: right;
+      font-size: 20px;
+    }
+    .header h6{
+      font-size: 30px;
+      display: inline-flex;
+      border: 2px solid black;
+      padding: 10px;
+      margin: auto;
+    }
+    .header2{
+        text-align: center;
+        font-size: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+    td {
+      padding: 20px;
+      text-align: center;
+    }
+</style>
+{% endblock %}
+

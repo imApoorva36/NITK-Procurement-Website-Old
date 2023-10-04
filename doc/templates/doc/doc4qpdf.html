@@ -1,0 +1,134 @@
+{% extends './layout.html' %}
+{% load custom_filters %}
+{% load static %}
+{% block head %}
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{%endblock%}
+{% block title %} DOC_3:PDF {% endblock %}
+{% block body %}
+<header>
+    <div class="header-content">
+        <div class="right-text" style="text-align: right; border: 1px solid black; display: inline;">DOC-3</div>
+        <div class="left-text" style="text-align: center;  border: 1px solid black;"><strong>MEETING PROCEEDINGS <br>(Finalization of specifications)</strong></div>
+    </div>
+</header>
+<div class="header2">
+    <div><strong>Department of </strong> {{dept}}</div>
+    <h4><strong>Proceedings of the Purchase Committee meeting for finalization of specifications held on </strong> {{date2}} <strong>at</strong> {{venue}}</h4>    
+    <div><strong>Administrative Approval Ref. No. is </strong>{{refno}} ,<strong> and Date : </strong>{{date}}</div>
+</div>
+<hr>
+<div class="header">
+    <div class="ref_no" style="text-align: left;">
+      <strong>Ref. No:</strong> {{refno2}}
+    </div>
+    <div class="date" style="text-align: right;">
+      <strong>Date:</strong> {{date2}}
+    </div>
+    <h6>Resolved to finalize the specifications and invite Quotations (Cost < Rs. 1 Lakh) / Limited Tenders  (Rs. 1 Lakh<Cost < Rs. 25 Lakhs) / Newspaper Advertisement (Cost > Rs. 25 Lakh) / Proprietary Item Quotation from Authorized Dealer /DGS&D Rate contract details from Authorized Dealer
+    ( Type whichever is applicable only )  with following particulars :
+    </h6>
+</div>
+<div><strong> Debit Head: </strong> {{debit_head}} Fund..</div><br>
+<h2>NATIONAL INSTITUTE OF TECHNOLOGY, SURATHKAL</h2><br>
+<div>
+<div><strong style="text-align: center;">DEPARTMENT OF</strong> {{dept}}</div>
+</div>      
+<div style="text-align: center;">POST SRINIVASNAGAR, MANGALORE - 575 025 (D K)</div><br>
+<div style="text-align: center;">A DEEMED UNIVERSITY</div>
+<h5>Phone: (0824) 2474000.   					         Fax: (0824) 2474033</h5>
+<h5><strong>E- mail: info@nitk.ac.in			Website: http://www.nitk.ac.in</strong></h5><br>
+<div class="image-container"><img  style="max-width: 300px; height: auto; align-items: center;" src="{% static 'nitk_logo.jpg' %}" alt="NITK"></div>
+<h2>NOTICE INVITING QUOTATION</h2>
+<table style="font-size: 14px;">
+    <tr>
+        <td>Item Name: </td>
+        <td>{{item_name}}</td>
+    </tr>
+    <tr>
+        <td>Type: </td>
+        <td>{{type}}</td>
+    </tr>
+    <tr>
+        <td>Quantity: </td>
+        <td>{{quantity}}</td>
+    </tr>
+    <tr>
+        <td>Specifications</td>
+        <td>(Attach Additional Sheets if necessary, if files are attached, avaiable in subsequent pages of pdf) If exists, File currently uploaded is: {{addsheet}}<br>
+            {% if addsheet %}
+            <a href="{{addsheet.url}}" target="_blank">View Existing File</a>
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>Total Estimated Cost: </td>
+        <td>Rs. {{estcost}}</td>
+    </tr>
+    <tr>
+        <td>For Cost > 1 Lakh | EMD</td>
+        <td> 2 % of Estimated Cost  :  Rs.{{estcost|percentage }}</td>
+    </tr>
+    <tr>
+        <td>Warranty Period</td>
+        <td>{{warranty}}</td>
+    </tr>
+    <tr>
+        <td>Number of firms to be invited(for Limited Tenders /   Quotations only)</td> 
+        <td>(Minimum of 4 Suppliers): {{suppliers}}</td>
+    </tr>
+    <tr>
+        <td>Prospective Suppliers(for Limited Tenders /   Quotations only)</td>
+        <td>The List of Name and address of  Suppliers enclosed: {{listnadd}}</td>
+    </tr>
+  </table>
+<br>
+<strong>Signatures of Purchase Committee Members</strong>
+    <table>
+    <tr>
+        <td><strong>Name</strong></td>
+        <td><strong>Signature</strong></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td><td></td>
+        <td><strong>Chaiman</strong></td>
+    </tr>
+    <tr>
+        <td></td><td></td>
+        <td rowspan="7"><strong>Members</strong></td>
+    </tr>
+    <tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td>
+            <strong>Convenor</strong>
+        </td>
+    </tr>
+    </table>
+<style>
+    body {
+    font-family: "Times New Roman";
+    font-size: 15px;
+    }
+    .header2{
+        text-align: center;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+      width: 50%;
+    }
+</style>
+{% endblock %}
+

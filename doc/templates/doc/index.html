@@ -1,0 +1,97 @@
+{% extends './layout.html' %}
+{% load static %}
+{% block head %}
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css" href="../../static/index.css" />
+{%endblock%}
+{% block title %} Index {% endblock %}
+{% block body %}
+<div class="index-container">
+    <div class="index">
+        <h1>NITK DOCUMENT PROCUREMENT</h1>
+        <h5>Please <strong>LOGIN</strong> to continue</h5>
+        <form action="{% url 'login' %}" method="post" class="login-form">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="exampleInputEmail1"><strong>Username</strong></label>
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username" name="username" required>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1"><strong>Password</strong></label>
+              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary"><strong>LOGIN</strong></button>
+          </form>
+          <strong style="margin-left: 2%; margin-top: 1rem; color: rgb(96, 95, 95);">Don't have an account then REGISTER</strong>
+         <a href="../register"> <button class="btn btn-primary"><strong>REGISTER</strong></button></a>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+ 
+<style>
+    .index{
+        background: white;
+        max-width: 1050px;
+        padding: 3%;
+        max-width: 1000px;
+        margin: auto;
+        margin-top: 5%;
+        margin-bottom: 5%;
+        min-height: 500px;
+        max-height: 1000px;
+        display: grid;    
+    }
+    /* .index-container{
+        max-height: 40vh;
+    } */
+    .index:hover{
+        filter: drop-shadow(0 0 0.5rem rgb(206, 206, 206));
+    }
+    .index>h1{
+        font-weight: bolder;
+        letter-spacing: 2px;
+        border-bottom: solid;
+        border-color: rgb(159, 159, 159);
+        padding-left: 2%;
+    }
+    .index>h5{
+        font-weight: 550;
+        letter-spacing: 1px;
+        margin-top: 1rem;
+        margin-left: 2%;
+        margin-bottom: 1.5rem;
+    }
+    label{
+        margin-left: 2%;
+    }
+    .form-control{
+        max-width: 600px;
+        margin-left: 2%;
+        margin-bottom: 2rem;
+    }
+    .btn{
+        max-width: 150px;
+        margin-left: 2%;
+        background:  #6770d2;
+        background-color: #6770d2;
+    }
+    .login-form {
+        border-bottom:solid;
+        border-width: thin;
+        padding-left: 1%;
+        padding-bottom: 1rem;
+        max-width: 650px; 
+        border-color: rgb(193, 193, 193);;
+    }
+    a{
+        width: min-content;
+        margin-left: 2%;
+    }
+</style>
+{% endblock %}
+

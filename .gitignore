@@ -1,0 +1,63 @@
+# Python and Django-related files
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Environment variables
+.env
+
+# Dependency directories
+venv/
+env/
+env3/
+*.egg-info/
+dist/
+build/
+lib/
+
+# Local development settings
+local_settings.py
+
+# Logs and other generated files
+logs/
+*.log
+*.pot
+*.pyc
+
+# Media files (if you're using Django's MEDIA_ROOT)
+media/
+
+# Static files (if you're using Django's STATIC_ROOT)
+static/
+
+# IDE-specific files
+.vscode/
+.idea/
+*.iml
+
+# Compiled Python files
+__pycache__/
+
+# Cache directories
+__pycache__/
+.caches/
+
+# Temporary files
+*.swp
+*~
+
+# macOS-specific
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows-specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Python virtual environment
+venv/

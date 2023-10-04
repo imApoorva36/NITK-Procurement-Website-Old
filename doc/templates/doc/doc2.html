@@ -1,0 +1,454 @@
+{% extends './layout.html' %}
+{% load custom_filters %}
+{% load static %}    
+{% block body %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<div class="container">
+  <div class="header">
+    <!-- Logout and Next Doc Buttons -->
+    <!-- User Profile Info -->
+    <div class="user-profile">
+      <div>
+        Username: {{ request.user.username }} <br> Email-id: {{ request.user.email }} <br>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="sidebar">
+      <h3 class="logout-button"><a href="{% url 'logout' %}">
+        <button>Logout</button>
+      </a></h3>
+      <h3 class="next-button"><a href="{% url 'home' %}">
+        <button>Doc : 1</button>
+      </a></h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc3' %}">
+            <button>Doc : 3</button>
+        </a>
+      </h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc4q' %}">
+            <button>Doc : 4Q</button>
+        </a>
+      </h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc4t1' %}">
+            <button>Doc : 4t1</button>
+        </a>
+      </h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc4t2' %}">
+            <button>Doc : 4t2</button>
+        </a>
+      </h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc5' %}">
+            <button>Doc : 5</button>
+        </a>
+      </h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc6' %}">
+            <button>Doc : 6</button>
+        </a>
+      </h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc78' %}">
+            <button>Doc : 7 And 8</button>
+        </a>
+      </h3>
+    </div>
+    <div class="main-form">
+      <div class="head-header">
+        <div class="left-aligned-box">
+            <h3 class="align-left">MEETING NOTICE</h3><br>(finalization of specifications)
+          </div>
+          <div class="right-aligned-box">
+            <h3 class="align-right">DOC-2</h3>
+          </div>
+      </div>      
+      <form  method="post" action="{% url 'doc2pdf' %}" enctype="multipart/form-data" class="mb-3">
+          <hr>
+          {% csrf_token %}
+          {% if user_data %}
+                {% for userdata in user_data %}
+                <div class="container1">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label for="dept_dropdown">Department of:</label>
+                        </div>
+                        <div class="col-auto">
+                        <select disabled class="form-select" name="dept" aria-label="Default select example">
+                            <option {% if "Computer Science and Engineering" in userdata.dept %}selected{% else %}disabled{% endif %} value="Computer Science and Engineering">Computer Science and Engineering</option>
+                            <option {% if "Electronics and Communication Engineering" in userdata.dept %}selected{% else %}disabled{% endif %} value="Electronics and Communication Engineering">Electronics and Communication Engineering</option>
+                            <option {% if "Electrical and Electronics Engineering" in userdata.dept %}selected{% else %}disabled{% endif %} value="Electrical and Electronics Engineering">Electrical and Electronics Engineering</option>
+                            <option {% if "Computational and Data Science" in userdata.dept %}selected{% else %}disabled{% endif %} value="Computational and Data Science">Computational and Data Science</option>
+                        </select>
+                        </div>
+                    </div>
+                    <br>
+                    <h4 class="heading"><hr>Notice for Meeting of Purchase Committee for finalization of Specifications; Prospective Suppliers</h4>
+                    <hr>
+                  <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                      <label for="refno" class="col-form-label">Administrative Approval Ref. No.: {{userdata.refno}} , Date is: {{ userdata.date}}</label>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="container1">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-auto">
+                                <label for="refno" class="col-form-label">New Ref No.:</label>
+                            </div>
+                            <div class="col-auto">
+                                <input type="number" id="inputPassword6" class="form-control" {% if userdata.refno2 %}value="{{userdata.refno2}}"{% endif %} placeholder="Reference Number" name="refno2" required>
+                            </div>
+                        </div>
+                    <br>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                          <label for="date" class="col-form-label">Date: </label>
+                        </div>
+                        <div class="col-auto">
+                          <input required {% if userdata.date2 %}value="{{ user_data.date2 }}"{% endif %} class="form-control" type="date" name="date2">
+                        </div>
+                        <div class="col-auto">
+                          <span id="passwordHelpInline" class="form-text">
+                            Must be entered everytime
+                          </span>
+                        </div>
+                      </div>
+                  </div>
+                  <h6>A Meeting is convened for finalization of Specifications and prospective suppliers.</h6><br>
+                  <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                      <label for="debit_head" class="col-form-label">Debit Head :</label>
+                    </div>
+                    <div class="col-auto">
+                      <input disabled value="{{ userdata.debit_head}}" type="text" name="debit_head" placeholder="Name of Debit Head" required class="form-control">
+                    </div>
+                  </div><br>
+                  <table>
+                    <tr>
+                        <td>Item Name: </td>
+                        <td>{{ userdata.item_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Type: </td>
+                        <td>
+                            <select disabled id="dropdown" name="type">
+                                <option {% if "EQUIPMENT" in userdata.type %}selected{% endif %} value="EQUIPMENT">EQUIPMENT</option>
+                                <option {% if "SOFTWARE" in userdata.type %}selected{% endif %} value="SOFTWARE">SOFTWARE</option>
+                                <option {% if "FURNITURE" in userdata.type %}selected{% endif %} value="FURNITURE">FURNITURE</option>
+                                <option {% if "OTHERS" in userdata.type %}selected{% endif %} value="OTHERS">OTHERS</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Quantity: </td>
+                        <td>{{ userdata.quantity}}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Estimated Cost: </td>
+                        <td>Rs. {{ userdata.estcost}}</td>
+                    </tr>
+                    <tr>
+                        <td>For Cost > 1 Lakh | EMD</td>
+                        <td> 2 % of Estimated Cost  :  Rs.{{ userdata.estcost|percentage }}</td>
+                    </tr>
+                    <tr>
+                        <td>(temp)Date and Time( to confirm)</td>
+                        <td>{{userdata.date}}</td>
+                    </tr>
+                    <tr>
+                        <td>Venue</td> 
+                        <td><input {% if userdata.venue %}value="{{userdata.venue}}"{% endif %} type="text" id="venue" name="venue"></td>
+                    </tr>
+                    <tr>
+                        <h6>You are requested to make it convenient to attend the meeting.</h6>
+                    </tr>
+                    <tr>
+                        <td>Faculty in-charge of Purchase (buyer)</td>
+                    <td>
+                    <div class="mb-3">
+                        <img src="../../../media/{{userdata.facsign}}" id="signature1_preview" alt="Signature 1" style="max-width: 100px; max-height: 100px; display: none;">
+                    </div>
+                    </td>
+                    </tr>
+                  </table>
+                  <br>
+                  <h6>To (Purchase Committee Members) </h6>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label for="expert1Name" class="col-form-label">Expert 1 Name:</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" id="inputPassword6" class="form-control" value="{{ userdata.expert1Name}}" name="expert1Name">
+                        </div>
+                        <div class="col-auto">
+                            <label for="expert2Name" class="col-form-label">Expert 2 Name:</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" id="inputPassword6" class="form-control" value="{{ userdata.expert2Name}}" name="expert2Name">
+                        </div>
+                    </div>
+                {% endfor %}
+          {% else %}
+          <div>
+            <script>
+                // Show an alert message
+                window.onload = function() {
+                    alert("Please fill Doc 1 to access this page.");
+                    window.location.href = "{% url 'home' %}"; // Redirect to the home page
+                };
+            </script>
+          </div>
+          {% endif %}
+          <br>
+          <hr>
+          <div>
+          <div>
+              <button type="submit">Generate Files</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+  
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+<script>
+    function previewImage(event, signatureId) {
+      var input = event.target;
+      var imagePreview = document.getElementById(signatureId + '_preview');
+
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+          imagePreview.src = e.target.result;
+          imagePreview.style.display = 'inline-block';
+        };
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  </script>
+
+
+<!--below this is the css/styling for this speicifc home page-->
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+label, button {
+    margin-right: 10px; /* Adjust the value as needed */
+}
+
+/* Apply padding before the input */
+.inputhere {
+    margin-left: 10px; /* Adjust the value as needed */
+}
+.container {
+  background-color: #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0; /* Remove margin */
+    margin-right: 0;
+}
+
+/* Header area with buttons and user info */
+.header {
+  display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    display: inline-block;
+}
+.head-header{
+    display: flex;
+    gap:5rem;
+}
+.logout-button, .next-button {
+  padding: 12px 20px; /* Adjust padding for larger buttons */
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 18px; /* Adjust font size to make it smaller */
+}
+.content {
+    display: flex;
+    flex-wrap: wrap;
+    /* width: 100%; */
+    width: calc(100% - 10px);
+    max-width: 1500px;
+}
+.user-profile {
+    text-align: right;
+}
+.sidebar {
+    flex: 1;
+    padding: 20px;
+    background-color: #e9e9e9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    max-width:200px;
+}
+/* .right-aligned-box {
+    text-align: right;
+    border: 1px solid #000;
+    padding: 10px;
+    display: inline-block;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+} */
+.right-aligned-box {
+    border: 1px solid #000;
+    padding: 10px;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-right: 2rem;
+    margin-left: auto;
+}
+
+.align-left {
+    text-align: left;
+    margin: 0;
+}
+.left-aligned-box {
+    text-align: left;
+    border: 1px solid #000;
+    padding: 10px;
+    display: inline-block;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+}
+
+.align-right {
+    text-align: right;
+    margin: 0;
+}
+/* Main Form Area */
+.main-form {
+    flex: 2;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-left: 20px;
+    /* margin-right: 10px; */
+    width: calc(100% - 10px);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+hr {
+  height: 4px; /* Adjust the height to make the hr thicker or thinner */
+  background-color: #333; /* Adjust the color as desired */
+  border: none; /* Remove default hr border */
+  margin: 20px 0; /* Optional: Add some margin around the hr for spacing */
+}
+
+table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+}
+label {
+      font-weight: bold;
+    }
+
+select {
+      padding: 5px;
+}
+
+body {
+      margin: 10px; /* Add margin to the whole page */
+}
+
+  .deptdiv{
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin-right: 10px;
+  }
+.sidebar{
+  min-width: 10rem;
+  width: 15%;
+  height: 100vh;
+  background: white;
+  margin-top: 1rem;
+}
+.sidebar{
+  margin-top: 1rem;
+  display: grid;
+  background: white;
+  height: min-content;
+}
+.sidebar>button{
+  text-decoration: none;
+  padding: 5%;
+  border-width: thin;
+  color: rgb(71, 71, 71);
+  font-weight: 700;
+
+}
+.sidebar>button:hover{
+  background: green;
+}
+
+.table-header{
+  max-width: 1500px;
+  background: white;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+.table-header>h2{
+  padding: 0.5rem;
+  padding-left: 2rem;
+  border-left: solid;
+  border-width: thick;
+  font-size: 1.5rem;
+  font-weight: bolder;
+  color: rgb(142, 86, 156);
+  border-color: rgb(57, 15, 71);
+}
+.table{
+  max-width: 1500px;
+  margin: auto;
+  margin-top: 0.5rem;
+}
+@media (max-width: 1500px) {
+    .main-form {
+        padding: 5px;
+    }
+}
+</style>
+{% endblock %}

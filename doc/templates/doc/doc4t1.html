@@ -1,0 +1,550 @@
+{% extends './layout.html' %}
+{% load custom_filters %}
+{% load static %}    
+{% block body %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<div class="container">
+  <div class="header">
+    <!-- Logout and Next Doc Buttons -->
+    <!-- User Profile Info -->
+    <div class="user-profile">
+      <div>
+        Username: {{ request.user.username }} <br> Email-id: {{ request.user.email }} <br>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="sidebar">
+      <h3 class="logout-button"><a href="{% url 'logout' %}">
+        <button>Logout</button>
+      </a></h3>
+      <h3 class="next-button"><a href="{% url 'home' %}">
+        <button>Doc : 1</button>
+      </a></h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc2' %}">
+            <button>Doc : 2</button>
+        </a>
+      </h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc3' %}">
+            <button>Doc : 3</button>
+        </a>
+      </h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc4q' %}">
+            <button>Doc : 4Q</button>
+        </a>
+      </h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc4t2' %}">
+            <button>Doc : 4t2</button>
+        </a>
+      </h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc5' %}">
+            <button>Doc : 5</button>
+        </a>
+      </h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc6' %}">
+            <button>Doc : 6</button>
+        </a>
+      </h3>
+      <h3 class="next-button">
+        <a href="{% url 'doc78' %}">
+            <button>Doc : 7 And 8</button>
+        </a>
+      </h3>
+    </div>
+    <div class="main-form">
+      <div class="head-header">
+        <div class="right-aligned-box">
+        <h3 class="align-right">DOC-3</h3>
+        </div>
+      </div>      
+      <h2>NATIONAL INSTITUTE OF TECHNOLOGY, SURATHKAL</h2><br>
+      <div>
+        {% if user_data %}
+            {%for userdata in user_data %}
+            <div><strong style="text-align: center;">DEPARTMENT OF</strong> {{userdata.dept}}</div>
+            {% endfor %}
+        {% endif %}
+      </div>      
+      <div style="text-align: center;">POST SRINIVASNAGAR, MANGALORE - 575 025 (D K)</div><br>
+      <div style="text-align: center;">A DEEMED UNIVERSITY</div>
+      <h5>Phone: (0824) 2474000.   					         Fax: (0824) 2474033</h5>
+      <h5><strong>E- mail: info@nitk.ac.in			Website: http://www.nitk.ac.in</strong></h5><br>
+      <div class="image-container"><img  style="max-width: 300px; height: auto; align-items: center;" src="{% static 'nitk_logo.jpg' %}" alt="NITK"></div>
+      <h2>NOTICE INVITING QUOTATION</h2>
+      <form  method="post" action="{% url 'doc4qpdf' %}" enctype="multipart/form-data" class="mb-3">
+          <hr>
+          {% csrf_token %}
+          {% if user_data %}
+                {% for userdata in user_data %}
+                <div class="container1">
+                    <div>
+                        <div class="row g-3 align-items-center" style="text-align: left;">
+                            <div class="col-auto">
+                              <label for="notino" class="col-form-label">Notification No.: </label>
+                            </div>
+                            <div class="col-auto">
+                              <input name="notino" {% if userdata.notino %}value="{{userdata.notino}}"{% endif %}type="text" id="notino" class="form-control" aria-describedby="passwordHelpInline">
+                            </div>
+                        </div>
+                        <div class="row g-3 align-items-center" style="text-align: right;">
+                            <div class="col-auto">
+                              <label for="date" class="col-form-label">Dated: </label>
+                            </div>
+                            <div class="col-auto">
+                              <input required {% if userdata.date4q %}value="{{ user_data.date4q }}"{% endif %} class="form-control" type="date" name="date4q">
+                            </div>
+                            <div class="col-auto">
+                              <span id="passwordHelpInline" class="form-text">
+                                Must be entered everytime
+                              </span>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  <br>
+                  <table>
+                    <tr>
+                        <td><strong>Name of Goods: </strong></td>
+                        <td><input {% if userdata.name_goods %} value="{{ userdata.name_goods}}"{% endif %} type="text" name="name_goods" placeholder="Name of Goods" required class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>Estimated Amount: </td>
+                        <td>
+                            <input {% if userdata.estamt %} value="{{ userdata.estamt}}"{% endif %} type="text" name="estamt" placeholder="Estimated Amount" required class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Time for Supply of item after release of Purchase order</td>
+                        <td><input {% if userdata.timesupply %} value="{{ userdata.timesupply}}"{% endif %} type="number" name="timesupply" placeholder="Time for Supply of item after release of Purchase order" required class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>Last Date for submission of bids</td>
+                        <td>
+                            <input {% if userdata.datebid %} value="{{ userdata.datebid}}"{% endif %} type="date" name="datebid" placeholder="Last Date for submission of bids" required class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Address for Submission of bids[ Type Address of the Department and Contact Person Details with Phone Number]</td>
+                        <td> <input {% if userdata.addbid %} value="{{ userdata.addbid}}"{% endif %} type="text" name="addbid" placeholder="Address and Details" required class="form-control"></td>
+                    </tr>
+                  </table>
+                  <br>
+                <div class="page-break">
+                    <h2>SECTION 2</h2><br><h2>SCHEDULE OF REQUIREMENTS, SPECIFICATIONS AND ALLIED DETAILS</h2>
+                    <div>[ To be filled up by the Department / Centre of NITK, Surathkal ]</div><br><hr>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                          <label for="item_proc" class="col-form-label">Item(s) Name to be Procured: </label>
+                        </div>
+                        <div class="col-auto">
+                          <input value="{{ userdata.item_proc}}" type="text" name="item_proc" placeholder="Name of Items" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                          <label for="spec" class="col-form-label">Brief Specifications of the Item(s): </label>
+                        </div>
+                        <div class="col-auto">
+                          <input value="{{ userdata.spec}}" type="text" name="spec" placeholder="Brief Specifications" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                          <label for="quantity_doc4q" class="col-form-label">Quantity: </label>
+                        </div>
+                        <div class="col-auto">
+                          <input value="{{ userdata.quantity_doc4q}}" type="text" name="quantity_doc4q" placeholder="Quantity" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                          <label for="details" class="col-form-label">Any other details / requirement: </label>
+                        </div>
+                        <div class="col-auto">
+                          <input value="{{ userdata.details}}" type="text" name="details" placeholder="Details" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                          <label for="warranty_doc4q" class="col-form-label">Warranty Period required: </label>
+                        </div>
+                        <div class="col-auto">
+                          <input value="{{ userdata.warranty_doc4q}}" type="number" name="warranty_doc4q" placeholder="Warranty period" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                          <label for="del_sched" class="col-form-label">Delivery Schedule expected after placement of Purchase order (in Weeks): </label>
+                        </div>
+                        <div class="col-auto">
+                          <input value="{{ userdata.del_sched}}" type="number" name="del_sched" placeholder="Delivery Schedule Expected" required class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-break">
+                    <div><h3>SECTION 3 ( ONLY NEW PDF ENTRIES FOLLOW )</h3></div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                          <label for="curr" class="col-form-label">Currency and Unit Price: </label>
+                        </div>
+                        <div class="col-auto">
+                          <input value="{{ userdata.curr}}" type="text" name="curr" placeholder="Currency and Unit Price" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                          <label for="tax_dut" class="col-form-label">Specify the type of taxes and duties in percentages and also in figures: </label>
+                        </div>
+                        <div class="col-auto">
+                          <input value="{{ userdata.tax_dut}}" type="text" name="tax_dut" placeholder="Type of Taxes and Duties" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                          <label for="other_charges" class="col-form-label">Specify Other Charges in figures: </label>
+                        </div>
+                        <div class="col-auto">
+                          <input value="{{ userdata.other_charges}}" type="text" name="other_charges" placeholder="Other Charges" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                          <label for="name_add_firm" class="col-form-label">Name and address of the Firm for placing purchase order: </label>
+                        </div>
+                        <div class="col-auto">
+                          <input value="{{ userdata.name_add_firm}}" type="text" name="name_add_firm" placeholder="Name, Address of Firm" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                          <label for="name_add_auth" class="col-form-label">Name and address of Indian authorized agent ( in case of imports only): </label>
+                        </div>
+                        <div class="col-auto">
+                          <input value="{{ userdata.name_add_auth}}" type="text" name="name_add_auth" placeholder="Name, Address of Authorised Firm" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                          <label for="name_des_bid" class="col-form-label">Name and Designation: </label>
+                        </div>
+                        <div class="col-auto">
+                          <input value="{{ userdata.name_des_bid}}" type="text" name="name_des_bid" placeholder="Name and Designation" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                          <label for="bus_add" class="col-form-label">Business Address: </label>
+                        </div>
+                        <div class="col-auto">
+                          <input value="{{ userdata.bus_add}}" type="text" name="bus_add" placeholder="Business Address" required class="form-control">
+                        </div>
+                    </div>
+                </div>
+    
+                {% endfor %}
+          {% else %}
+          <div>
+            <script>
+                // Show an alert message
+                window.onload = function() {
+                    alert("Please fill Doc 1 to access this page.");
+                    window.location.href = "{% url 'home' %}"; // Redirect to the home page
+                };
+            </script>
+          </div>
+          {% endif %}
+          <br>
+          <hr>
+          <div>
+          <div>
+              <button type="submit">Generate Files</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+  
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+<script>
+
+    function previewImage(event, signatureId) {
+      var input = event.target;
+      var imagePreview = document.getElementById(signatureId + '_preview');
+
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+          imagePreview.src = e.target.result;
+          imagePreview.style.display = 'inline-block';
+        };
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function estcostcheck() {
+      const estimatedCostInput = document.getElementById("estcost");
+      const expert1Div = document.getElementById("expert1");
+      const expert2Div = document.getElementById("expert2");
+      const expert1Divname = document.getElementById("expert1Name");
+      const expert2Divname = document.getElementById("expert2Name");
+      var taskRow2 = document.getElementById('taskRow2');
+      var taskRow3 = document.getElementById('taskRow3');
+
+    //   if (estimatedCostInput.value > 500000) {
+    //     expert1Div.style.display = "block";
+    //     expert2Div.style.display = "block";
+    //     expert1Divname.disabled=false;
+    //     expert2Divname.disabled=false;
+    //   } else {
+    //     expert1Div.style.display = "none";
+    //     expert2Div.style.display = "none";      
+    //}
+
+      if (estimatedCostInput.value < 200000) { // Less than 2 Lakhs
+        taskRow2.style.display = 'table-row';
+        taskRow3.style.display = 'none';
+      } else {
+        taskRow2.style.display = 'none';
+        taskRow3.style.display = 'table-row';
+      }
+    }
+  </script>
+
+
+<!--below this is the css/styling for this speicifc home page-->
+
+<style>
+.page-break {
+    page-break-before: always;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 15px;
+}
+label, button {
+    margin-right: 10px; /* Adjust the value as needed */
+}
+
+/* Apply padding before the input */
+.inputhere {
+    margin-left: 10px; /* Adjust the value as needed */
+}
+.container {
+  background-color: #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    /* min-height: 100vh; */
+    padding: 0;
+    margin: 0; /* Remove margin */
+    margin-right: 0;
+}
+.image-container {
+    max-width: 100px; /* Set the maximum width for the container */
+    height: auto;    /* Maintain the aspect ratio */
+    margin: 0 auto;
+}
+
+/* Header area with buttons and user info */
+.header {
+  display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    display: inline-block;
+}
+.head-header{
+    display: flex;
+    gap:5rem;
+}
+.logout-button, .next-button {
+  padding: 12px 20px; /* Adjust padding for larger buttons */
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 18px; /* Adjust font size to make it smaller */
+}
+.content {
+    display: flex;
+    flex-wrap: wrap;
+    /* width: 100%; */
+    width: calc(100% - 10px);
+    max-width: 1500px;
+}
+.user-profile {
+    text-align: right;
+}
+.sidebar {
+    flex: 1;
+    padding: 20px;
+    background-color: #e9e9e9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    max-width:200px;
+}
+/* .right-aligned-box {
+    text-align: right;
+    border: 1px solid #000;
+    padding: 10px;
+    display: inline-block;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+} */
+.right-aligned-box {
+    border: 1px solid #000;
+    padding: 10px;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-right: 2rem;
+    margin-left: auto;
+}
+
+.align-left {
+    text-align: left;
+    margin: 0;
+}
+.left-aligned-box {
+    text-align: left;
+    border: 1px solid #000;
+    padding: 10px;
+    display: inline-block;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+}
+
+.align-right {
+    text-align: right;
+    margin: 0;
+}
+/* Main Form Area */
+.main-form {
+    flex: 2;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-left: 20px;
+    /* margin-right: 10px; */
+    width: calc(100% - 10px);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+hr {
+  height: 4px; /* Adjust the height to make the hr thicker or thinner */
+  background-color: #333; /* Adjust the color as desired */
+  border: none; /* Remove default hr border */
+  margin: 20px 0; /* Optional: Add some margin around the hr for spacing */
+}
+
+table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+}
+label {
+      font-weight: bold;
+    }
+
+select {
+      padding: 5px;
+}
+
+body {
+      margin: 5px; /* Add margin to the whole page */
+}
+
+  .deptdiv{
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin-right: 10px;
+  }
+.sidebar{
+  min-width: 10rem;
+  width: 15%;
+  height: 100vh;
+  background: white;
+  margin-top: 1rem;
+}
+.sidebar{
+  margin-top: 1rem;
+  display: grid;
+  background: white;
+  height: min-content;
+}
+.sidebar>button{
+  text-decoration: none;
+  padding: 5%;
+  border-width: thin;
+  color: rgb(71, 71, 71);
+  font-weight: 700;
+
+}
+.sidebar>button:hover{
+  background: green;
+}
+
+.table-header{
+  max-width: 1500px;
+  background: white;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+.table-header>h2{
+  padding: 0.5rem;
+  padding-left: 2rem;
+  border-left: solid;
+  border-width: thick;
+  font-size: 1.5rem;
+  font-weight: bolder;
+  color: rgb(142, 86, 156);
+  border-color: rgb(57, 15, 71);
+}
+.table{
+  max-width: 1500px;
+  margin: auto;
+  margin-top: 0.5rem;
+}
+@media (max-width: 1500px) {
+    .main-form {
+        padding: 5px;
+    }
+}
+</style>
+{% endblock %}
